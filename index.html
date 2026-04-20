@@ -6,532 +6,610 @@
 <meta name="theme-color" content="#050505" />
 <title>ERSC Training & Tactics | Firearm License Portal</title>
 <meta name="description" content="ERSC Training & Tactics firearm license portal for client application submissions." />
-<link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/johandebeer21/ERSC-licensing-portal/main/ERSC%20Logo.jpg" />
+<link rel="icon" type="image/jpeg" href="https://cdn.jsdelivr.net/gh/johandebeer21/ERSC-licensing-portal@main/ERSC%20Logo.jpg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
 <style>
-:root{
-  --bg:#050505;
-  --surface:rgba(255,255,255,.05);
-  --surface-2:rgba(255,255,255,.08);
-  --border:rgba(255,255,255,.10);
-  --border-2:rgba(255,255,255,.16);
-  --text:#f5f5f5;
-  --muted:#a5a5a5;
-  --accent:#c5a059;
-  --accent-2:#e0c07a;
-  --shadow:0 20px 60px rgba(0,0,0,.45);
-  --radius:24px;
-  --radius-sm:16px;
-  --max:1180px;
+:root {
+  --bg: #060606;
+  --surface: rgba(255,255,255,.05);
+  --surface-hover: rgba(255,255,255,.08);
+  --border: rgba(255,255,255,.09);
+  --border-2: rgba(255,255,255,.18);
+  --text: #f2f0f0;
+  --muted: #8a8484;
+  --accent: #c0201e;
+  --accent-light: #e8403e;
+  --gold-glow: rgba(192,32,30,.18);
+  --shadow-deep: 0 32px 80px rgba(0,0,0,.60);
+  --r: 20px;
+  --r-sm: 14px;
+  --max: 1160px;
+  --nav-h: 72px;
 }
 
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;
-  font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── NOISE GRAIN ── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.6;
+}
+
+/* ── AMBIENT GLOW ORBS ── */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(80px);
+  animation: drift 20s ease-in-out infinite alternate;
+}
+.orb-1 {
+  width: 600px; height: 600px;
+  top: -180px; left: -120px;
+  background: radial-gradient(circle, rgba(192,32,30,.12), transparent 70%);
+  animation-delay: 0s;
+}
+.orb-2 {
+  width: 500px; height: 500px;
+  top: 30%; right: -150px;
+  background: radial-gradient(circle, rgba(255,255,255,.04), transparent 70%);
+  animation-delay: -7s;
+}
+.orb-3 {
+  width: 400px; height: 400px;
+  bottom: 10%; left: 30%;
+  background: radial-gradient(circle, rgba(192,32,30,.07), transparent 70%);
+  animation-delay: -13s;
+}
+@keyframes drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(30px, 20px) scale(1.08); }
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  height: var(--nav-h);
+  background: rgba(6,6,6,.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar-inner {
+  max-width: var(--max); margin: 0 auto;
+  height: 100%;
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+.brand img {
+  height: 48px; width: auto; max-width: 160px;
+  object-fit: contain; border-radius: 8px;
+}
+.brand-text strong {
+  display: block; font-size: .82rem;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--text);
+}
+.brand-text span { display: block; color: var(--muted); font-size: .74rem; margin-top: 3px; }
+.topbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.top-btn {
+  display: inline-flex; align-items: center; height: 38px;
+  padding: 0 16px; border-radius: 999px;
+  text-decoration: none; border: 1px solid var(--border);
+  background: transparent; color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: .76rem; letter-spacing: .07em; text-transform: uppercase;
+  transition: color .2s, border-color .2s, background .2s, transform .2s;
+}
+.top-btn:hover { color: var(--text); border-color: var(--border-2); background: var(--surface-hover); transform: translateY(-1px); }
+.top-btn.accent { background: rgba(192,32,30,.12); border-color: rgba(192,32,30,.3); color: var(--accent-light); }
+.top-btn.accent:hover { background: rgba(192,32,30,.2); border-color: rgba(192,32,30,.5); }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  min-height: calc(100svh - var(--nav-h));
+  display: flex; align-items: flex-end;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('https://cdn.jsdelivr.net/gh/johandebeer21/ERSC-licensing-portal@main/ersc_training_tactics_pty_ltd_cover.jpg') center center / cover no-repeat;
+  opacity: .22;
+  transform: scale(1.04);
+  animation: slowZoom 24s ease-in-out infinite alternate;
+}
+@keyframes slowZoom {
+  from { transform: scale(1.04); }
+  to   { transform: scale(1.10); }
+}
+.hero-vignette {
+  position: absolute; inset: 0;
   background:
-    radial-gradient(circle at 20% 0%, rgba(197,160,89,.10), transparent 30%),
-    radial-gradient(circle at 80% 10%, rgba(255,255,255,.05), transparent 25%),
-    linear-gradient(180deg,#050505 0%,#070707 45%,#050505 100%);
-  color:var(--text);
-  min-height:100vh;
-  overflow-x:hidden;
+    linear-gradient(to bottom, rgba(6,6,6,.3) 0%, rgba(6,6,6,.0) 25%, rgba(6,6,6,.0) 55%, rgba(6,6,6,.95) 100%),
+    linear-gradient(to right, rgba(6,6,6,.6) 0%, transparent 50%);
+}
+.hero-content {
+  position: relative; z-index: 2;
+  max-width: var(--max); width: 100%; margin: 0 auto;
+  padding: 60px 24px 72px;
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 28px; align-items: end;
+}
+.hero-copy { max-width: 680px; }
+
+.kicker {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 8px 16px; border-radius: 999px;
+  border: 1px solid rgba(192,32,30,.28);
+  background: rgba(192,32,30,.06);
+  color: #ffaaaa;
+  font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
+  margin-bottom: 20px;
+  animation: fadeUp .7s ease both;
+  animation-delay: .1s;
+}
+.kicker-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 5px rgba(192,32,30,.18);
+  animation: pulseRing 2.4s ease infinite;
+}
+@keyframes pulseRing {
+  0%,100% { box-shadow: 0 0 0 3px rgba(192,32,30,.18); }
+  50%      { box-shadow: 0 0 0 8px rgba(192,32,30,.0); }
 }
 
-a{color:inherit}
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.6rem, 9vw, 7.5rem);
+  line-height: .92; letter-spacing: .03em;
+  text-transform: uppercase; font-weight: 400;
+  color: var(--text);
+  animation: fadeUp .8s ease both;
+  animation-delay: .2s;
+}
+.hero h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-sub {
+  margin-top: 20px;
+  color: #b8b4ae; font-size: 1.05rem; line-height: 1.72; max-width: 52ch;
+  animation: fadeUp .8s ease both; animation-delay: .35s;
+}
+.hero-actions {
+  margin-top: 32px; display: flex; flex-wrap: wrap; gap: 12px;
+  animation: fadeUp .8s ease both; animation-delay: .5s;
+}
+.cta-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 54px; padding: 0 28px; border-radius: 999px;
+  background: linear-gradient(160deg, var(--accent-light) 0%, var(--accent) 100%);
+  color: #1a0000; font-weight: 700; font-size: .9rem; letter-spacing: .06em; text-transform: uppercase;
+  text-decoration: none; border: none;
+  box-shadow: 0 12px 36px rgba(192,32,30,.28), 0 0 0 1px rgba(192,32,30,.4);
+  transition: transform .25s ease, box-shadow .25s ease;
+  position: relative; overflow: hidden;
+}
+.cta-primary::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(255,255,255,.18) 0%, transparent 60%);
+  border-radius: inherit;
+}
+.cta-primary:hover { transform: translateY(-3px); box-shadow: 0 18px 48px rgba(192,32,30,.38), 0 0 0 1px rgba(192,32,30,.55); }
+.cta-primary:active { transform: translateY(-1px); }
+.cta-ghost {
+  display: inline-flex; align-items: center; gap: 10px;
+  height: 54px; padding: 0 28px; border-radius: 999px;
+  background: rgba(255,255,255,.04); border: 1px solid var(--border-2);
+  color: var(--text); font-size: .9rem; letter-spacing: .04em; text-transform: uppercase;
+  text-decoration: none;
+  transition: transform .25s, background .25s, border-color .25s;
+}
+.cta-ghost:hover { transform: translateY(-3px); background: rgba(255,255,255,.07); border-color: rgba(255,255,255,.28); }
 
-body::before{
-  content:"";
-  position:fixed;
-  inset:-20%;
-  background:
-    radial-gradient(circle at 50% 20%, rgba(197,160,89,.10), transparent 18%),
-    radial-gradient(circle at 15% 80%, rgba(255,255,255,.04), transparent 18%),
-    radial-gradient(circle at 80% 65%, rgba(197,160,89,.06), transparent 22%);
-  filter:blur(30px);
-  pointer-events:none;
-  z-index:-2;
-  animation:floatGlow 18s ease-in-out infinite alternate;
+/* ── HERO PANEL ── */
+.hero-panel {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border-2);
+  border-radius: var(--r);
+  padding: 22px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 24px 64px rgba(0,0,0,.45);
+  animation: fadeUp .9s ease both; animation-delay: .55s;
 }
-@keyframes floatGlow{
-  from{transform:translate3d(0,0,0) scale(1)}
-  to{transform:translate3d(1.5%,1%,0) scale(1.03)}
+.panel-title {
+  font-size: .76rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--accent-light); margin-bottom: 16px;
 }
+.steps-list { display: flex; flex-direction: column; gap: 10px; }
+.step {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 13px 14px; border-radius: 13px;
+  background: rgba(0,0,0,.25); border: 1px solid rgba(255,255,255,.06);
+  transition: border-color .2s, background .2s;
+}
+.step:hover { background: rgba(0,0,0,.35); border-color: rgba(192,32,30,.2); }
+.step-num {
+  width: 26px; height: 26px; border-radius: 8px; flex: 0 0 auto;
+  display: grid; place-items: center;
+  background: rgba(192,32,30,.12); border: 1px solid rgba(192,32,30,.2);
+  color: var(--accent-light); font-size: .8rem; font-weight: 700;
+}
+.step-text { font-size: .87rem; color: #dbd8d3; line-height: 1.48; padding-top: 3px; }
 
-.topbar{
-  position:sticky;
-  top:0;
-  z-index:100;
-  backdrop-filter:blur(18px);
-  -webkit-backdrop-filter:blur(18px);
-  background:rgba(5,5,5,.72);
-  border-bottom:1px solid var(--border);
+/* ── SECTION ── */
+.section { max-width: var(--max); margin: 0 auto; padding: 72px 24px; }
+.section-label {
+  font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 10px;
 }
-.topbar-inner{
-  max-width:var(--max);
-  margin:0 auto;
-  padding:14px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  letter-spacing: .04em; text-transform: uppercase; font-weight: 400;
+  line-height: 1.05;
 }
-.brand{
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
-.brand img{
-  height:56px;
-  width:auto;
-  max-width:180px;
-  object-fit:contain;
-  object-position:center;
-  border-radius:10px;
-  background:transparent;
-  border:none;
-  padding:0;
-}
-.brand-text strong{
-  display:block;
-  font-size:.95rem;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-}
-.brand-text span{
-  display:block;
-  color:var(--muted);
-  font-size:.8rem;
-  margin-top:4px;
-}
-
-.hero{
-  position:relative;
-  min-height:calc(100vh - 82px);
-  display:grid;
-  align-items:center;
-  overflow:hidden;
-  border-bottom:1px solid var(--border);
-}
-.hero-media{
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(180deg, rgba(5,5,5,.18) 0%, rgba(5,5,5,.50) 45%, rgba(5,5,5,.90) 100%),
-    url('https://raw.githubusercontent.com/johandebeer21/ERSC-licensing-portal/main/ersc_training_tactics_pty_ltd_cover.jpg') center center / contain no-repeat;
-  background-color:#050505;
-}
-.hero-content{
-  position:relative;
-  z-index:1;
-  max-width:var(--max);
-  width:100%;
-  margin:0 auto;
-  padding:42px 20px 76px;
-  display:grid;
-  grid-template-columns:minmax(0,1.15fr) minmax(260px,360px);
-  gap:22px;
-  align-items:end;
-}
-.hero-copy{max-width:760px}
-.kicker{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  padding:10px 14px;
-  border:1px solid rgba(197,160,89,.35);
-  border-radius:999px;
-  background:rgba(197,160,89,.08);
-  color:#f3dfb3;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  font-size:.74rem;
-  margin-bottom:18px;
-}
-.kicker::before{
-  content:"";
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--accent);
-  box-shadow:0 0 0 6px rgba(197,160,89,.16);
-}
-.hero h1{
-  margin:0;
-  font-size:clamp(2.4rem,6vw,5rem);
-  line-height:.95;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  font-weight:300;
-}
-.hero p.lead{
-  margin:20px 0 0;
-  max-width:58ch;
-  color:#d5d5d5;
-  font-size:1.06rem;
-  line-height:1.7;
-}
-.hero-actions{
-  margin-top:28px;
-  display:flex;
-  flex-wrap:wrap;
-  gap:14px;
-}
-.cta,.cta-secondary{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  min-height:52px;
-  padding:0 22px;
-  border-radius:999px;
-  text-decoration:none;
-  border:1px solid transparent;
-  transition:.28s ease;
-  font-weight:700;
-  letter-spacing:.05em;
-}
-.cta{
-  background:linear-gradient(180deg,var(--accent-2),var(--accent));
-  color:#120f08;
-  box-shadow:0 18px 34px rgba(197,160,89,.24);
-}
-.cta:hover{transform:translateY(-2px)}
-.cta-secondary{
-  background:rgba(255,255,255,.03);
-  color:var(--text);
-  border-color:var(--border);
-}
-.cta-secondary:hover{transform:translateY(-2px);border-color:var(--border-2);background:rgba(255,255,255,.06)}
-
-.hero-panel{
-  align-self:end;
-  background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
-  border:1px solid var(--border);
-  box-shadow:var(--shadow);
-  border-radius:var(--radius);
-  padding:16px 16px 14px;
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  max-width:360px;
-  justify-self:end;
-}
-.hero-panel h2{
-  margin:0 0 8px;
-  font-size:.92rem;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-}
-.hero-panel p{
-  margin:0;
-  color:var(--muted);
-  line-height:1.5;
-  font-size:.88rem;
-}
-.hero-list{
-  display:grid;
-  gap:8px;
-  margin-top:12px;
-}
-.hero-item{
-  display:flex;
-  gap:10px;
-  align-items:flex-start;
-  padding:11px;
-  border-radius:14px;
-  background:rgba(0,0,0,.22);
-  border:1px solid rgba(255,255,255,.07);
-}
-.hero-item b{
-  width:24px;
-  height:24px;
-  display:grid;
-  place-items:center;
-  border-radius:8px;
-  background:rgba(197,160,89,.15);
-  border:1px solid rgba(197,160,89,.22);
-  color:#f0d7a5;
-  flex:0 0 auto;
-  font-size:.8rem;
-}
-.hero-item span{
-  color:#e6e6e6;
-  font-size:.86rem;
-  line-height:1.45;
+.section-sub {
+  margin-top: 10px; color: var(--muted);
+  font-size: .96rem; line-height: 1.72; max-width: 54ch;
 }
 
-.section{
-  max-width:var(--max);
-  margin:0 auto;
-  padding:84px 20px;
+/* ── PORTAL GRID ── */
+.portal-grid {
+  margin-top: 36px;
+  display: grid; grid-template-columns: 1fr 320px; gap: 20px; align-items: start;
 }
-.section-header{margin-bottom:24px}
-.section-header h3{
-  margin:0;
-  font-size:clamp(1.45rem,2.7vw,2.2rem);
-  line-height:1.1;
+.portal-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: var(--r); padding: 28px;
+  box-shadow: 0 16px 48px rgba(0,0,0,.28);
 }
-.section-header p{
-  margin:10px 0 0;
-  color:var(--muted);
-  max-width:62ch;
-  line-height:1.7;
+.portal-intro { margin-bottom: 24px; }
+.portal-intro h4 { font-size: 1.1rem; margin-bottom: 6px; }
+.portal-intro p { color: var(--muted); font-size: .9rem; line-height: 1.65; }
+
+.app-list { display: flex; flex-direction: column; gap: 10px; }
+.app-btn {
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 16px 18px; border-radius: 14px;
+  text-decoration: none; border: 1px solid var(--border);
+  background: rgba(255,255,255,.03);
+  transition: transform .22s ease, background .22s ease, border-color .22s ease, box-shadow .22s ease;
+  position: relative; overflow: hidden;
+}
+.app-btn::after {
+  content: ""; position: absolute; inset: 0; opacity: 0;
+  background: linear-gradient(90deg, rgba(192,32,30,.06) 0%, transparent 60%);
+  transition: opacity .25s ease;
+}
+.app-btn:hover::after { opacity: 1; }
+.app-btn.live {
+  border-color: rgba(192,32,30,.3);
+  background: linear-gradient(160deg, rgba(192,32,30,.1) 0%, rgba(192,32,30,.04) 100%);
+  box-shadow: 0 4px 24px rgba(192,32,30,.10), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.app-btn.live:hover {
+  transform: translateY(-3px);
+  border-color: rgba(192,32,30,.5);
+  box-shadow: 0 12px 36px rgba(192,32,30,.20), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.app-btn.soon { opacity: .38; pointer-events: none; filter: grayscale(.8); }
+.app-btn.plain { justify-content: center; background: transparent; border: 1px solid var(--border); }
+.app-btn.plain:hover { transform: translateY(-2px); background: var(--surface-hover); }
+.btn-info { display: flex; flex-direction: column; gap: 3px; }
+.btn-info strong { font-size: .98rem; }
+.btn-info span { font-size: .82rem; color: var(--muted); }
+.btn-arrow {
+  width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto;
+  display: grid; place-items: center;
+  background: rgba(192,32,30,.1); border: 1px solid rgba(192,32,30,.2);
+  color: var(--accent-light); font-size: 1rem;
+  transition: transform .2s ease, background .2s ease;
+}
+.app-btn.live:hover .btn-arrow { transform: rotate(45deg); background: rgba(192,32,30,.2); }
+.live-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: .68rem; letter-spacing: .10em; text-transform: uppercase;
+  color: #6ee96e; padding: 3px 8px; border-radius: 999px;
+  background: rgba(110,233,110,.1); border: 1px solid rgba(110,233,110,.2);
+  margin-bottom: 6px;
+}
+.live-dot { width: 5px; height: 5px; border-radius: 50%; background: #6ee96e; animation: livePulse 1.8s ease infinite; }
+@keyframes livePulse {
+  0%,100% { opacity: 1; } 50% { opacity: .3; }
 }
 
-.portal-wrap{
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:20px;
-  align-items:start;
+/* ── SIDE BOX ── */
+.side-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: var(--r); padding: 24px;
 }
-.portal,.side-box,.card,.faq details,
-.partner-badge{
-  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-  border:1px solid var(--border);
-  border-radius:var(--radius-sm);
-  box-shadow:0 14px 35px rgba(0,0,0,.22);
+.side-card h4 { font-size: 1rem; margin-bottom: 16px; letter-spacing: .02em; }
+.checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.checklist li {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 13px 14px; border-radius: 12px;
+  background: rgba(0,0,0,.18); border: 1px solid rgba(255,255,255,.06);
+  font-size: .88rem; color: #d0cdc8; line-height: 1.55;
 }
-.portal{padding:24px}
-.portal h4{margin:0 0 8px;font-size:1.2rem}
-.portal p{margin:0 0 18px;color:var(--muted);line-height:1.7}
-.button-stack{display:flex;flex-direction:column;gap:12px}
-.btn{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:14px;
-  padding:17px 18px;
-  text-decoration:none;
-  border-radius:18px;
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--border);
-  transition:.25s ease;
-}
-.btn .label{display:flex;flex-direction:column;gap:4px}
-.btn .label strong{font-size:1rem}
-.btn .label span{font-size:.84rem;color:var(--muted)}
-.btn .arrow{color:var(--accent-2);font-size:1.2rem}
-.btn.active{background:linear-gradient(180deg, rgba(197,160,89,.18), rgba(255,255,255,.04));border-color:rgba(197,160,89,.35)}
-.btn.disabled{opacity:.38;pointer-events:none;filter:grayscale(1)}
-.btn.secondary{justify-content:center;background:transparent}
-.btn:hover{transform:translateY(-2px);border-color:var(--border-2);background:rgba(255,255,255,.06)}
-
-.side-box{padding:24px}
-.side-box h4{margin:0 0 10px;font-size:1.1rem}
-.side-box ul{margin:0;padding:0;list-style:none;display:grid;gap:12px}
-.side-box li{
-  padding:14px 14px 14px 44px;
-  position:relative;
-  color:#d8d8d8;
-  line-height:1.6;
-  border-radius:16px;
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(255,255,255,.07);
-}
-.side-box li::before{
-  content:"✓";
-  position:absolute;
-  left:14px;
-  top:14px;
-  width:20px;
-  height:20px;
-  color:#111;
-  background:var(--accent-2);
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  font-size:.78rem;
-  font-weight:800;
+.check-icon {
+  width: 22px; height: 22px; border-radius: 50%; flex: 0 0 auto;
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
+  color: #1a0000; font-size: .7rem; font-weight: 900;
 }
 
-footer{
-  padding:48px 20px 36px;
-  border-top:1px solid var(--border);
-  background:linear-gradient(180deg,#090909,#060606);
+/* ── DIVIDER ── */
+.divider { border: none; border-top: 1px solid var(--border); }
+
+/* ── FOOTER ── */
+footer {
+  padding: 56px 24px 36px;
+  border-top: 1px solid var(--border);
+  background: linear-gradient(180deg, #070707, var(--bg));
 }
-.footer-inner{max-width:var(--max);margin:0 auto;display:grid;gap:24px}
-.footer-top{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:center}
-.footer-brand{display:flex;gap:14px;align-items:flex-start}
-.footer-brand img{
-  height:62px;
-  width:auto;
-  max-width:220px;
-  object-fit:contain;
-  object-position:left center;
-  border-radius:0;
-  background:transparent;
-  border:none;
-  padding:0;
+.footer-inner { max-width: var(--max); margin: 0 auto; }
+.footer-top {
+  display: grid; grid-template-columns: 1fr auto; gap: 24px;
+  align-items: center; margin-bottom: 40px;
 }
-.footer-brand h5{margin:0;font-size:1rem;letter-spacing:.12em;text-transform:uppercase}
-.footer-brand p{margin:8px 0 0;color:var(--muted);line-height:1.7}
-.partner-wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:flex-end;align-items:center}
-.partner-badge{display:flex;align-items:center;gap:10px;padding:12px 14px}
-.partner-badge span{font-size:.78rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
-.partner-badge img{height:42px;width:auto;object-fit:contain;object-position:center;display:block}
-.partner-badge .dlam{height:38px}
-.footer-bottom{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:12px;
-  color:#666;
-  font-size:.76rem;
-  letter-spacing:.06em;
-  text-transform:uppercase;
-  border-top:1px solid rgba(255,255,255,.06);
-  padding-top:18px;
+.footer-brand { display: flex; align-items: flex-start; gap: 16px; }
+.footer-brand img { height: 56px; width: auto; object-fit: contain; border-radius: 8px; }
+.footer-brand h5 { font-size: .9rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 6px; }
+.footer-brand p { color: var(--muted); font-size: .87rem; line-height: 1.65; max-width: 38ch; }
+.partner-row { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-end; }
+.partner-chip {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 16px; border-radius: 14px;
+  background: rgba(255,255,255,.04); border: 1px solid var(--border);
+}
+.partner-chip span { font-size: .72rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+.partner-chip img { height: 38px; width: auto; object-fit: contain; }
+.footer-bottom {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 10px;
+  padding-top: 20px; border-top: 1px solid rgba(255,255,255,.06);
+  color: #4e4b47; font-size: .74rem; letter-spacing: .07em; text-transform: uppercase;
 }
 
-.floating-cta{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  z-index:120;
-  display:flex;
-  gap:10px;
-  align-items:center;
+/* ── FAB ── */
+.fab-wrap {
+  position: fixed; right: 20px; bottom: 20px; z-index: 120;
+  display: flex; align-items: center; gap: 10px;
 }
-.floating-cta a{text-decoration:none}
-.fab{
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(180deg,var(--accent-2),var(--accent));
-  color:#140f09;
-  font-size:1.3rem;
-  box-shadow:0 18px 30px rgba(197,160,89,.26);
-  border:1px solid rgba(255,255,255,.18);
+.fab-label {
+  padding: 11px 18px; border-radius: 999px;
+  background: rgba(6,6,6,.9); border: 1px solid var(--border-2);
+  color: var(--text); font-size: .84rem; text-decoration: none;
+  box-shadow: 0 12px 32px rgba(0,0,0,.5);
+  transition: transform .2s, background .2s;
+  white-space: nowrap;
 }
-.fab-label{
-  padding:12px 16px;
-  border-radius:999px;
-  background:rgba(5,5,5,.88);
-  border:1px solid var(--border);
-  color:var(--text);
-  font-size:.85rem;
-  box-shadow:var(--shadow);
+.fab-label:hover { transform: translateY(-2px); background: rgba(20,20,20,.95); }
+.fab-btn {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: linear-gradient(160deg, var(--accent-light), var(--accent));
+  color: #1a0000; font-size: 1.25rem;
+  box-shadow: 0 14px 32px rgba(192,32,30,.3), 0 0 0 1px rgba(192,32,30,.3);
+  text-decoration: none; border: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+  animation: fabPop .6s cubic-bezier(.34,1.56,.64,1) both; animation-delay: 1s;
+}
+.fab-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 20px 44px rgba(192,32,30,.42); }
+@keyframes fabPop {
+  from { opacity: 0; transform: scale(0.4); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
-@media (max-width: 980px){
-  .hero-content,.portal-wrap,.footer-top{grid-template-columns:1fr}
-  .hero-content{padding-top:46px}
-  .hero-panel{max-width:none;justify-self:start}
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity .7s ease, transform .7s ease;
 }
-@media (max-width: 760px){
-  .topbar-inner,.footer-bottom{align-items:flex-start}
-  .hero{min-height:auto}
-  .hero-content{padding:32px 20px 56px}
-  .hero h1{font-size:clamp(2.1rem,11vw,3.8rem)}
-  .section{padding:58px 20px}
-  .hero-panel{padding:14px}
-  .floating-cta{left:18px;right:18px;justify-content:flex-end}
-  .fab-label{display:none}
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+
+/* ── KEYFRAMES ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-  .section{padding:58px 20px}
-  .floating-cta{left:18px;right:18px;justify-content:flex-end}
-  .fab-label{display:none}
+
+/* ── MOBILE ── */
+@media (max-width: 900px) {
+  .hero-content { grid-template-columns: 1fr; padding: 48px 20px 56px; }
+  .hero-panel { max-width: none; }
+  .portal-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; }
+  .partner-row { justify-content: flex-start; }
 }
-@media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+@media (max-width: 640px) {
+  :root { --nav-h: 64px; }
+  .topbar-inner { padding: 0 16px; }
+  .brand img { height: 38px; }
+  .brand-text strong { font-size: .74rem; }
+  .top-btn { height: 34px; padding: 0 12px; font-size: .7rem; }
+  .hero-content { padding: 36px 16px 48px; }
+  .hero h1 { font-size: clamp(3rem, 14vw, 5.5rem); }
+  .hero-sub { font-size: .95rem; }
+  .cta-primary, .cta-ghost { height: 48px; padding: 0 22px; font-size: .84rem; }
+  .section { padding: 52px 16px; }
+  .portal-card { padding: 20px 16px; }
+  .side-card { padding: 18px 16px; }
+  .fab-label { display: none; }
+  .fab-wrap { right: 16px; bottom: 16px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 </style>
 </head>
 <body>
 
+<!-- Ambient orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- ── NAV ── -->
 <header class="topbar">
   <div class="topbar-inner">
-    <div class="brand">
-      <img src="https://raw.githubusercontent.com/johandebeer21/ERSC-licensing-portal/main/ERSC%20Logo.jpg" alt="ERSC Logo">
+    <a class="brand" href="#top">
+      <img src="https://cdn.jsdelivr.net/gh/johandebeer21/ERSC-licensing-portal@main/ERSC%20Logo.jpg" alt="ERSC Logo" />
       <div class="brand-text">
         <strong>ERSC Training & Tactics</strong>
         <span>Firearm License Portal</span>
       </div>
+    </a>
+    <div class="topbar-right">
+      <a class="top-btn" href="#portal">Applications</a>
+      <a class="top-btn" href="#footer">Partners</a>
+      <a class="top-btn accent" href="https://trainingntactics.co.za/" target="_blank" rel="noopener">Website ↗</a>
     </div>
   </div>
 </header>
 
+<!-- ── HERO ── -->
 <section class="hero" id="top">
-  <div class="hero-media" aria-hidden="true"></div>
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-vignette" aria-hidden="true"></div>
+
   <div class="hero-content">
     <div class="hero-copy">
-      <div class="kicker">Client submission portal</div>
-      <h1>Complete your application.</h1>
-      <p class="lead">Use the relevant application link below to submit your information.</p>
+      <div class="kicker"><span class="kicker-dot"></span>Client Submission Portal</div>
+      <h1>Complete your<br><em>application.</em></h1>
+      <p class="hero-sub">Use the relevant application link below to submit your firearm licence information to the ERSC team for processing.</p>
       <div class="hero-actions">
-        <a class="cta" href="https://tally.so/r/gDNgD1" target="_blank" rel="noopener">Start Section 13 Application</a>
+        <a class="cta-primary" href="https://tally.so/r/gDNgD1" target="_blank" rel="noopener">
+          Start Section 13 Application <span>→</span>
+        </a>
+        <a class="cta-ghost" href="#portal">View All Applications</a>
       </div>
     </div>
 
     <aside class="hero-panel">
-      <h2>Application Steps</h2>
-      <p>Quick submission flow for clients.</p>
-      <div class="hero-list">
-        <div class="hero-item"><b>1</b><span>Select the correct application type</span></div>
-        <div class="hero-item"><b>2</b><span>Complete all required fields</span></div>
-        <div class="hero-item"><b>3</b><span>Submit for processing</span></div>
+      <p class="panel-title">How it works</p>
+      <div class="steps-list">
+        <div class="step"><div class="step-num">1</div><p class="step-text">Select the correct application type below</p></div>
+        <div class="step"><div class="step-num">2</div><p class="step-text">Complete all required fields carefully</p></div>
+        <div class="step"><div class="step-num">3</div><p class="step-text">Submit — the ERSC team handles the rest</p></div>
       </div>
     </aside>
   </div>
 </section>
 
+<!-- ── PORTAL SECTION ── -->
 <section class="section" id="portal">
-  <div class="section-header">
-    <h3>Application links</h3>
-    <p>Use the relevant link below.</p>
+  <div class="reveal">
+    <p class="section-label">Portal</p>
+    <h2 class="section-title">Application Links</h2>
+    <p class="section-sub">Select the application that applies to your firearm licence category. Additional forms will be added as they become available.</p>
   </div>
 
-  <div class="portal-wrap">
-    <div class="portal">
-      <div class="button-stack">
-        <a class="btn active" href="https://tally.so/r/gDNgD1" target="_blank" rel="noopener">
-          <span class="label"><strong>Section 13 Self-Defense</strong><span>Live submission link</span></span>
-          <span class="arrow">↗</span>
+  <div class="portal-grid">
+    <div class="portal-card reveal" style="transition-delay:.1s">
+      <div class="portal-intro">
+        <h4>Select Your Application</h4>
+        <p>Each link opens a secure online form. Use the correct section for your licence type.</p>
+      </div>
+
+      <div class="app-list">
+        <a class="app-btn live" href="https://tally.so/r/gDNgD1" target="_blank" rel="noopener">
+          <div class="btn-info">
+            <div class="live-badge"><span class="live-dot"></span> Live</div>
+            <strong>Section 13 — Self-Defence</strong>
+            <span>Open & accepting submissions</span>
+          </div>
+          <div class="btn-arrow">↗</div>
         </a>
-        <a class="btn disabled" href="#"><span class="label"><strong>Section 15 Occasional Hunting</strong><span>Coming soon</span></span><span class="arrow">↗</span></a>
-        <a class="btn disabled" href="#"><span class="label"><strong>Section 16 Dedicated Sport</strong><span>Coming soon</span></span><span class="arrow">↗</span></a>
-        <a class="btn disabled" href="#"><span class="label"><strong>Section 16 Dedicated Hunting</strong><span>Coming soon</span></span><span class="arrow">↗</span></a>
-        <a class="btn secondary" href="https://trainingntactics.co.za/" target="_blank" rel="noopener">Official ERSC Training Website</a>
+        <div class="app-btn soon">
+          <div class="btn-info">
+            <strong>Section 15 — Occasional Hunting</strong>
+            <span>Coming soon</span>
+          </div>
+          <div class="btn-arrow">↗</div>
+        </div>
+        <div class="app-btn soon">
+          <div class="btn-info">
+            <strong>Section 16 — Dedicated Sport</strong>
+            <span>Coming soon</span>
+          </div>
+          <div class="btn-arrow">↗</div>
+        </div>
+        <div class="app-btn soon">
+          <div class="btn-info">
+            <strong>Section 16 — Dedicated Hunting</strong>
+            <span>Coming soon</span>
+          </div>
+          <div class="btn-arrow">↗</div>
+        </div>
+        <a class="app-btn plain" href="https://trainingntactics.co.za/" target="_blank" rel="noopener">
+          <span style="font-size:.88rem;color:var(--muted);">Official ERSC Training & Tactics Website ↗</span>
+        </a>
       </div>
     </div>
 
-    <aside class="side-box">
-      <h4>Submission</h4>
-      <ul>
-        <li>Complete all required fields carefully.</li>
-        <li>Use the correct application section.</li>
-        <li>Submit once all information is ready.</li>
+    <aside class="side-card reveal" style="transition-delay:.22s">
+      <h4>Submission Checklist</h4>
+      <ul class="checklist">
+        <li><span class="check-icon">✓</span>Complete all required fields carefully</li>
+        <li><span class="check-icon">✓</span>Ensure you're using the correct application section</li>
+        <li><span class="check-icon">✓</span>Have your ID and relevant documents ready before starting</li>
+        <li><span class="check-icon">✓</span>Submit only once all information is complete</li>
       </ul>
     </aside>
   </div>
 </section>
 
+<!-- ── FOOTER ── -->
 <footer id="footer">
   <div class="footer-inner">
-    <div class="footer-top">
+    <div class="footer-top reveal">
       <div class="footer-brand">
-        <img src="https://raw.githubusercontent.com/johandebeer21/ERSC-licensing-portal/main/ERSC%20Logo.jpg" alt="ERSC Logo">
+        <img src="https://cdn.jsdelivr.net/gh/johandebeer21/ERSC-licensing-portal@main/ERSC%20Logo.jpg" alt="ERSC Logo" />
         <div>
           <h5>ERSC Training & Tactics</h5>
-          <p>Client application portal.</p>
+          <p>Professional firearm licence submissions. Secure, compliant, and handled by the ERSC team.</p>
         </div>
       </div>
-
-      <div class="partner-wrap">
-        <div class="partner-badge">
+      <div class="partner-row">
+        <div class="partner-chip">
           <span>Strategic Partner</span>
-          <img src="https://raw.githubusercontent.com/johandebeer21/ERSC-licensing-portal/main/ERSC%20Logo.jpg" alt="ERSC logo">
+          <img src="https://cdn.jsdelivr.net/gh/johandebeer21/ERSC-licensing-portal@main/ERSC%20Logo.jpg" alt="ERSC" />
         </div>
-        <div class="partner-badge">
+        <div class="partner-chip">
           <span>Powered by</span>
-          <img class="dlam" src="https://raw.githubusercontent.com/johandebeer21/ERSC-licensing-portal/main/New%20logo%20transparent.png" alt="Digital License Assist Method logo">
+          <img src="https://cdn.jsdelivr.net/gh/johandebeer21/ERSC-licensing-portal@main/New%20logo%20transparent.png" alt="Digital License Assist Method" />
         </div>
       </div>
     </div>
-
     <div class="footer-bottom">
       <div>© 2026 ERSC Training & Tactics</div>
       <div>Powered by Digital License Assist Method™</div>
@@ -539,61 +617,76 @@ footer{
   </div>
 </footer>
 
-<div class="floating-cta">
+<!-- ── FAB ── -->
+<div class="fab-wrap">
   <a class="fab-label" href="https://tally.so/r/gDNgD1" target="_blank" rel="noopener">Start application</a>
-  <a class="fab" href="https://tally.so/r/gDNgD1" target="_blank" rel="noopener" aria-label="Start Section 13 application">↗</a>
+  <a class="fab-btn" href="https://tally.so/r/gDNgD1" target="_blank" rel="noopener" aria-label="Start Section 13 Application">↗</a>
 </div>
 
 <script>
-const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (!reduceMotion) {
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = 1;
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12 });
+(function() {
+  const motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  document.querySelectorAll('.hero-panel, .portal, .side-box').forEach(el => {
-    el.style.opacity = 0;
-    el.style.transform = 'translateY(16px)';
-    el.style.transition = 'opacity .6s ease, transform .6s ease';
-    observer.observe(el);
-  });
-
-  const particleLayer = document.createElement('div');
-  particleLayer.style.position = 'fixed';
-  particleLayer.style.inset = '0';
-  particleLayer.style.pointerEvents = 'none';
-  particleLayer.style.zIndex = '0';
-  document.body.appendChild(particleLayer);
-
-  for (let i = 0; i < 18; i++) {
-    const p = document.createElement('div');
-    const size = (Math.random() * 2 + 1) + 'px';
-    p.style.position = 'absolute';
-    p.style.width = size;
-    p.style.height = size;
-    p.style.borderRadius = '50%';
-    p.style.background = 'rgba(255,255,255,0.16)';
-    p.style.left = Math.random() * 100 + 'vw';
-    p.style.top = Math.random() * 100 + 'vh';
-    p.style.opacity = (Math.random() * 0.7 + 0.1).toString();
-    particleLayer.appendChild(p);
-
-    const duration = Math.random() * 12000 + 10000;
-    const driftX = (Math.random() * 80 - 40);
-    const driftY = (Math.random() * 120 - 60);
-    p.animate([
-      { transform: 'translate(0,0) scale(1)', opacity: 0.08 },
-      { transform: `translate(${driftX}px, ${driftY}px) scale(1.2)`, opacity: 0.35 },
-      { transform: 'translate(0,0) scale(1)', opacity: 0.08 }
-    ], { duration, iterations: Infinity, direction: 'alternate', easing: 'ease-in-out' });
+  /* ── Scroll reveal ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  if (motionOk && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in-view');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    revealEls.forEach(el => io.observe(el));
+  } else {
+    revealEls.forEach(el => el.classList.add('in-view'));
   }
-}
+
+  /* ── Parallax hero BG on scroll ── */
+  if (motionOk) {
+    const heroBg = document.querySelector('.hero-bg');
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = window.scrollY;
+          if (heroBg) heroBg.style.transform = `scale(1.06) translateY(${y * 0.18}px)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+  }
+
+  /* ── Floating particles ── */
+  if (motionOk) {
+    const layer = document.createElement('div');
+    layer.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:0;';
+    document.body.appendChild(layer);
+    for (let i = 0; i < 22; i++) {
+      const p = document.createElement('div');
+      const size = (Math.random() * 2.5 + 0.8).toFixed(1) + 'px';
+      const gold = Math.random() > 0.6;
+      p.style.cssText = `
+        position:absolute;
+        width:${size};height:${size};border-radius:50%;
+        background:${gold ? 'rgba(192,32,30,0.4)' : 'rgba(255,255,255,0.18)'};
+        left:${(Math.random() * 100).toFixed(1)}vw;
+        top:${(Math.random() * 100).toFixed(1)}vh;
+      `;
+      layer.appendChild(p);
+      const dur = Math.random() * 14000 + 12000;
+      const dx = (Math.random() * 100 - 50);
+      const dy = (Math.random() * 140 - 70);
+      p.animate([
+        { transform: 'translate(0,0) scale(1)', opacity: .06 },
+        { transform: `translate(${dx}px,${dy}px) scale(1.3)`, opacity: .32 },
+        { transform: 'translate(0,0) scale(1)', opacity: .06 }
+      ], { duration: dur, iterations: Infinity, direction: 'alternate', easing: 'ease-in-out' });
+    }
+  }
+})();
 </script>
 </body>
 </html>
