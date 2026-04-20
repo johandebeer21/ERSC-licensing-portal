@@ -134,9 +134,9 @@ body::after {
 }
 .hero-bg {
   position: absolute; inset: 0;
-  background: url('https://cdn.jsdelivr.net/gh/johandebeer21/ERSC-licensing-portal@main/ersc_training_tactics_pty_ltd_cover.jpg') center center / cover no-repeat;
-  opacity: .22;
-  transform: scale(1.04);
+  background: url('https://cdn.jsdelivr.net/gh/johandebeer21/ERSC-licensing-portal@main/ersc_training_tactics_pty_ltd_cover.jpg') center 30% / contain no-repeat;
+  opacity: .18;
+  transform: scale(1.02);
   animation: slowZoom 24s ease-in-out infinite alternate;
 }
 @keyframes slowZoom {
@@ -164,7 +164,7 @@ body::after {
   padding: 8px 16px; border-radius: 999px;
   border: 1px solid rgba(192,32,30,.28);
   background: rgba(192,32,30,.06);
-  color: #ffaaaa;
+  color: #ffb3b3;
   font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
   margin-bottom: 20px;
   animation: fadeUp .7s ease both;
@@ -450,16 +450,25 @@ footer {
   .footer-top { grid-template-columns: 1fr; }
   .partner-row { justify-content: flex-start; }
 }
+/* Tablet: hide brand subtitle */
+@media (max-width: 760px) {
+  .brand-text span { display: none; }
+  .top-btn { height: 34px; padding: 0 13px; font-size: .72rem; letter-spacing: .05em; }
+}
+/* Small mobile: hide brand text entirely, shrink buttons */
+@media (max-width: 480px) {
+  :root { --nav-h: 58px; }
+  .topbar-inner { padding: 0 12px; gap: 8px; }
+  .brand img { height: 34px; }
+  .brand-text { display: none; }
+  .topbar-right { gap: 5px; }
+  .top-btn { height: 30px; padding: 0 10px; font-size: .66rem; letter-spacing: .03em; }
+}
 @media (max-width: 640px) {
-  :root { --nav-h: 64px; }
-  .topbar-inner { padding: 0 16px; }
-  .brand img { height: 38px; }
-  .brand-text strong { font-size: .74rem; }
-  .top-btn { height: 34px; padding: 0 12px; font-size: .7rem; }
   .hero-content { padding: 36px 16px 48px; }
   .hero h1 { font-size: clamp(3rem, 14vw, 5.5rem); }
   .hero-sub { font-size: .95rem; }
-  .cta-primary, .cta-ghost { height: 48px; padding: 0 22px; font-size: .84rem; }
+  .cta-primary, .cta-ghost { height: 48px; padding: 0 20px; font-size: .84rem; }
   .section { padding: 52px 16px; }
   .portal-card { padding: 20px 16px; }
   .side-card { padding: 18px 16px; }
