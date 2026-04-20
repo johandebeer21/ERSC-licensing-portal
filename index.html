@@ -14,9 +14,10 @@
 <meta name="keywords" content="ERSC Training, firearm license assistance, firearm motivation, section 13, section 15, section 16, South Africa gun license">
 
 <style>
+  /* Base & Reset */
   body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f0f2f5; 
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: #f8f9fa; /* Elegant light pearl background */
     margin: 0;
     padding: 0;
     text-align: center;
@@ -28,6 +29,7 @@
     flex-direction: column;
   }
 
+  /* Subtle Background Animation */
   .background-shapes {
     position: fixed;
     top: 0; left: 0;
@@ -38,92 +40,145 @@
 
   .shape {
     position: absolute;
-    opacity: 0.15;
-    background-color: rgba(26, 26, 26, 0.2);
+    opacity: 0.08; /* Extremely subtle for elegance */
+    background-color: rgba(0, 0, 0, 0.3);
     animation: moveShape linear infinite;
   }
 
-  .diamond { width: 40px; height: 40px; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
-  .hexagon { width: 50px; height: 50px; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
+  .diamond { width: 30px; height: 30px; clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+  .hexagon { width: 40px; height: 40px; clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%); }
 
   @keyframes moveShape {
     0% { transform: translate(var(--x-start), var(--y-start)) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.2; }
-    50% { transform: translate(var(--x-mid), var(--y-mid)) rotate(180deg); opacity: 0.1; }
+    20% { opacity: 0.1; }
+    80% { opacity: 0.08; }
     100% { transform: translate(var(--x-end), var(--y-end)) rotate(360deg); opacity: 0; }
   }
 
-  .logo-hero {
-    position: relative;
-    width: 100%;
-    min-height: 160px;
+  /* Top Navigation / Logo Bar */
+  .top-nav {
+    background: #ffffff;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #000000, #1a1a1a, #333333);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    border-bottom: 4px solid #1a1a1a;
+    z-index: 10;
   }
 
-  .logo-hero img { 
-    width: 65%; 
-    max-width: 280px; 
-    height: auto; 
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); 
+  .top-nav img {
+    height: 80px;
+    width: auto;
+    object-fit: contain;
   }
 
-  h1 { margin: 2.5rem 0 0.5rem 0; color: #000; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 1px; padding: 0 10px; }
-  h2 { margin: 0 10% 2.5rem 10%; color: #444; font-weight: 400; font-size: 1.1rem; line-height: 1.5; }
+  /* Hero Section with Cover Image */
+  .hero-banner {
+    position: relative;
+    width: 100%;
+    padding: 5rem 1rem;
+    /* Uses the cover image with a dark, elegant gradient overlay */
+    background: linear-gradient(rgba(15, 15, 15, 0.85), rgba(15, 15, 15, 0.75)), 
+                url('https://raw.githubusercontent.com/johandebeer21/ERSC-licensing-portal/main/ersc_training_tactics_pty_ltd_cover.jpg') center/cover no-repeat;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-bottom: 3px solid #111;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  h1 { 
+    margin: 0 0 1rem 0; 
+    color: #ffffff; 
+    font-size: 2.4rem; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    font-weight: 300;
+  }
+  
+  h2 { 
+    margin: 0; 
+    color: #e0e0e0; 
+    font-weight: 300; 
+    font-size: 1.15rem; 
+    line-height: 1.6; 
+    letter-spacing: 0.5px;
+  }
+
+  /* Main Content & Buttons */
+  .main-content {
+    padding: 4rem 1rem 2rem 1rem;
+    flex: 1;
+  }
+
+  .instruction-text {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 2.5rem;
+    font-weight: 500;
+  }
 
   .button-container { 
     display: flex; 
     flex-direction: column; 
-    gap: 1rem; 
-    max-width: 420px; 
-    margin: 0 auto 3rem auto; 
-    padding: 0 20px; 
+    gap: 1.2rem; 
+    max-width: 450px; 
+    margin: 0 auto; 
   }
   
   a.button { 
-    background-color: #1a1a1a; 
-    color: white; 
-    padding: 1.1rem; 
+    background-color: #111111; 
+    color: #ffffff; 
+    padding: 1.2rem; 
     text-decoration: none; 
-    font-size: 1rem; 
-    border-radius: 4px; 
+    font-size: 1.05rem; 
+    border-radius: 3px; 
     font-weight: 600;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2); 
-    transition: all 0.3s ease; 
-    border: 1px solid transparent;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15); 
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); 
+    border: 1px solid #333;
   }
   
   a.button:hover { 
-    background-color: #333; 
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+    background-color: #2a2a2a; 
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     border-color: #555;
   }
 
   a.button.disabled {
-    background-color: #bbb;
+    background-color: #e0e0e0;
+    color: #888;
+    border-color: #ccc;
     pointer-events: none;
     box-shadow: none;
-    opacity: 0.7;
+    opacity: 0.8;
   }
 
+  /* Footer */
   footer {
     font-size: 0.85rem;
     color: #888;
     padding: 30px 0;
-    margin-top: auto;
-    background: #fff;
-    border-top: 1px solid #ddd;
+    background: #ffffff;
+    border-top: 1px solid #eaeaea;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 
-  @media (max-width: 480px) {
-    .logo-hero { min-height: 130px; }
-    h1 { font-size: 1.5rem; }
+  /* Mobile Responsiveness */
+  @media (max-width: 600px) {
+    .top-nav img { height: 60px; }
+    .hero-banner { padding: 3.5rem 1rem; }
+    h1 { font-size: 1.8rem; }
     h2 { font-size: 1rem; }
+    .main-content { padding: 3rem 1rem 1rem 1rem; }
+    a.button { padding: 1rem; font-size: 0.95rem; }
   }
 </style>
 </head>
@@ -131,52 +186,58 @@
 
 <div class="background-shapes" id="bgShapes"></div>
 
-<header class="logo-hero">
+<header class="top-nav">
   <img src="https://raw.githubusercontent.com/johandebeer21/ERSC-licensing-portal/main/ERSC%20Logo.jpg" alt="ERSC Training & Tactics Logo" />
 </header>
 
-<h1>Firearm License Portal</h1>
-<h2>
-  In partnership with <strong>ERSC Training & Tactics</strong>, we provide expert motivation drafting and licensing assistance. Please select your application type below to begin the secure digital submission process.
-</h2>
+<section class="hero-banner">
+  <div class="hero-content">
+    <h1>Firearm License Portal</h1>
+    <h2>
+      In partnership with <strong>ERSC Training & Tactics</strong>. <br>
+      Delivering precision motivation drafting and legal compliance assistance for your firearm applications.
+    </h2>
+  </div>
+</section>
 
-<div class="button-container">
-  <a href="https://tally.so/r/gDNgD1" target="_blank" rel="noopener" class="button">Section 13 – Self-Defense Motivation</a>
+<main class="main-content">
+  <div class="instruction-text">Select your application type below to begin a secure submission.</div>
   
-  <a href="#" class="button disabled">Section 15 – Occasional Hunting & Shooting</a>
-  <a href="#" class="button disabled">Section 16 – Dedicated Sport & Hunter</a>
-  <a href="#" class="button disabled">Competency Application Details</a>
-  <a href="#" class="button disabled">Firearm Renewal Application</a>
-</div>
+  <div class="button-container">
+    <a href="https://tally.so/r/gDNgD1" target="_blank" rel="noopener" class="button">Section 13 – Self-Defense Motivation</a>
+    
+    <a href="#" class="button disabled">Section 15 – Occasional Hunting & Shooting</a>
+    <a href="#" class="button disabled">Section 16 – Dedicated Sport & Hunter</a>
+    <a href="#" class="button disabled">Competency Application Details</a>
+    <a href="#" class="button disabled">Firearm Renewal Application</a>
+  </div>
+</main>
 
 <footer>
   &copy; 2026 ERSC Training & Tactics | Expert Firearm License Drafting Services
 </footer>
 
 <script>
+  // Subtle Background Shape Animation
   const shapes = ['diamond','hexagon'];
   const bgContainer = document.getElementById('bgShapes');
 
-  for(let i=0;i<20;i++){
+  for(let i=0; i<15; i++){
     const shapeType = shapes[Math.floor(Math.random()*shapes.length)];
     const div = document.createElement('div');
-    div.className = 'shape '+shapeType;
+    div.className = 'shape ' + shapeType;
 
-    const xStart = Math.random()*120-10+'vw';
-    const yStart = Math.random()*120-10+'vh';
-    const xMid = Math.random()*100+'vw';
-    const yMid = Math.random()*100+'vh';
-    const xEnd = Math.random()*120-10+'vw';
-    const yEnd = Math.random()*120-10+'vh';
-    const duration = 20 + Math.random()*30;
+    const xStart = Math.random() * 120 - 10 + 'vw';
+    const yStart = Math.random() * 120 - 10 + 'vh';
+    const xEnd = Math.random() * 120 - 10 + 'vw';
+    const yEnd = Math.random() * 120 - 10 + 'vh';
+    const duration = 25 + Math.random() * 40; // Slow, elegant movement
 
     div.style.setProperty('--x-start', xStart);
     div.style.setProperty('--y-start', yStart);
-    div.style.setProperty('--x-mid', xMid);
-    div.style.setProperty('--y-mid', yMid);
     div.style.setProperty('--x-end', xEnd);
     div.style.setProperty('--y-end', yEnd);
-    div.style.animationDuration = duration+'s';
+    div.style.animationDuration = duration + 's';
 
     bgContainer.appendChild(div);
   }
