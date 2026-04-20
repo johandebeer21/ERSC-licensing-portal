@@ -82,13 +82,15 @@ body::before{
   gap:14px;
 }
 .brand img{
-  width:52px;
-  height:52px;
+  height:56px;
+  width:auto;
+  max-width:180px;
   object-fit:contain;
-  border-radius:14px;
-  background:rgba(255,255,255,.03);
-  border:1px solid var(--border);
-  padding:6px;
+  object-position:center;
+  border-radius:10px;
+  background:transparent;
+  border:none;
+  padding:0;
 }
 .brand-text strong{
   display:block;
@@ -116,9 +118,8 @@ body::before{
   inset:0;
   background:
     linear-gradient(180deg, rgba(5,5,5,.20) 0%, rgba(5,5,5,.56) 45%, rgba(5,5,5,.92) 100%),
-    url('https://raw.githubusercontent.com/johandebeer21/ERSC-licensing-portal/main/ersc_training_tactics_pty_ltd_cover.jpg') center center / contain no-repeat;
-  background-color: #050505;
-}
+    url('https://raw.githubusercontent.com/johandebeer21/ERSC-licensing-portal/main/ersc_training_tactics_pty_ltd_cover.jpg') center/cover no-repeat;
+  transform:scale(1.04);
 }
 .hero-content{
   position:relative;
@@ -128,8 +129,8 @@ body::before{
   margin:0 auto;
   padding:88px 20px 76px;
   display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:30px;
+  grid-template-columns:1fr;
+  gap:0;
   align-items:end;
 }
 .hero-copy{max-width:760px}
@@ -349,21 +350,23 @@ footer{
 .footer-top{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;align-items:center}
 .footer-brand{display:flex;gap:14px;align-items:flex-start}
 .footer-brand img{
-  width:56px;
-  height:56px;
+  height:62px;
+  width:auto;
+  max-width:220px;
   object-fit:contain;
-  border-radius:16px;
-  background:rgba(255,255,255,.03);
-  border:1px solid var(--border);
-  padding:6px;
+  object-position:left center;
+  border-radius:0;
+  background:transparent;
+  border:none;
+  padding:0;
 }
 .footer-brand h5{margin:0;font-size:1rem;letter-spacing:.12em;text-transform:uppercase}
 .footer-brand p{margin:8px 0 0;color:var(--muted);line-height:1.7}
 .partner-wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:flex-end;align-items:center}
 .partner-badge{display:flex;align-items:center;gap:10px;padding:12px 14px}
 .partner-badge span{font-size:.78rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
-.partner-badge img{height:36px;width:auto;object-fit:contain}
-.partner-badge .dlam{height:34px}
+.partner-badge img{height:42px;width:auto;object-fit:contain;object-position:center;display:block}
+.partner-badge .dlam{height:38px}
 .footer-bottom{
   display:flex;
   justify-content:space-between;
@@ -455,12 +458,12 @@ footer{
     </div>
 
     <aside class="hero-panel">
-      <h2>Application</h2>
-      <p>Select the relevant section and complete the submission form.</p>
+      <h2>Application Steps</h2>
+      <p>Quick submission flow for clients.</p>
       <div class="hero-list">
-        <div class="hero-item"><b>1</b><span>Choose the correct application type</span></div>
-        <div class="hero-item"><b>2</b><span>Complete the form in full</span></div>
-        <div class="hero-item"><b>3</b><span>Submit your details for processing</span></div>
+        <div class="hero-item"><b>1</b><span>Select the correct application type</span></div>
+        <div class="hero-item"><b>2</b><span>Complete all required fields</span></div>
+        <div class="hero-item"><b>3</b><span>Submit for processing</span></div>
       </div>
     </aside>
   </div>
