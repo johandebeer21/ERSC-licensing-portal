@@ -160,6 +160,48 @@
     opacity: 0.8;
   }
 
+  /* Ghost Button Style added here */
+  a.button-ghost {
+    background-color: transparent;
+    color: #111111;
+    border: 2px solid #111111;
+    margin-top: 1rem; /* Adds space above the ghost button */
+  }
+
+  a.button-ghost:hover {
+    background-color: #111111;
+    color: #ffffff;
+  }
+
+  /* DLAM Partnership Section added here */
+  .partnership-section {
+    background: #f1f3f5;
+    padding: 3rem 1rem;
+    border-top: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .partnership-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #777;
+    margin-bottom: 1.2rem;
+  }
+
+  .dlam-logo {
+    height: 55px;
+    width: auto;
+    opacity: 0.85;
+    transition: opacity 0.3s;
+  }
+
+  .dlam-logo:hover {
+    opacity: 1;
+  }
+
   /* Footer */
   footer {
     font-size: 0.85rem;
@@ -207,14 +249,20 @@
     <a href="https://tally.so/r/gDNgD1" target="_blank" rel="noopener" class="button">Section 13 – Self-Defense Motivation</a>
     
     <a href="#" class="button disabled">Section 15 – Occasional Hunting & Shooting</a>
-    <a href="#" class="button disabled">Section 16 – Dedicated Sport & Hunter</a>
-    <a href="#" class="button disabled">Competency Application Details</a>
-    <a href="#" class="button disabled">Firearm Renewal Application</a>
+    <a href="#" class="button disabled">Section 16 – Dedicated Sport Shooting</a>
+    <a href="#" class="button disabled">Section 16 – Dedicated Hunting</a>
+    
+    <a href="https://trainingntactics.co.za/" target="_blank" rel="noopener" class="button button-ghost">Visit Official ERSC Website</a>
   </div>
 </main>
 
+<section class="partnership-section">
+  <div class="partnership-label">Official Marketing & Compliance Partner</div>
+  <img src="https://raw.githubusercontent.com/johandebeer21/ERSC-licensing-portal/main/New%20logo%20transparent.png" alt="Digital License Assist Method Logo" class="dlam-logo" />
+</section>
+
 <footer>
-  &copy; 2026 ERSC Training & Tactics | Expert Firearm License Drafting Services
+  &copy; 2026 ERSC Training & Tactics | Powered by DLAM™
 </footer>
 
 <script>
