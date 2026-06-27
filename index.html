@@ -322,6 +322,38 @@ body::after {
 .app-btn.soon { opacity: .38; pointer-events: none; filter: grayscale(.8); }
 .app-btn.plain { justify-content: center; background: transparent; border: 1px solid var(--border); }
 .app-btn.plain:hover { transform: translateY(-2px); background: var(--surface-hover); }
+
+/* ── TRACKER BUTTON ── */
+.app-btn.tracker {
+  border-color: rgba(110,180,255,.28);
+  background: linear-gradient(160deg, rgba(110,180,255,.08) 0%, rgba(110,180,255,.03) 100%);
+  box-shadow: 0 4px 24px rgba(110,180,255,.08), inset 0 1px 0 rgba(255,255,255,.06);
+}
+.app-btn.tracker:hover {
+  transform: translateY(-3px);
+  border-color: rgba(110,180,255,.5);
+  box-shadow: 0 12px 36px rgba(110,180,255,.18), inset 0 1px 0 rgba(255,255,255,.08);
+}
+.app-btn.tracker::after {
+  background: linear-gradient(90deg, rgba(110,180,255,.06) 0%, transparent 60%);
+}
+.tracker-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: .68rem; letter-spacing: .10em; text-transform: uppercase;
+  color: #93c5fd; padding: 3px 8px; border-radius: 999px;
+  background: rgba(147,197,253,.1); border: 1px solid rgba(147,197,253,.2);
+  margin-bottom: 6px;
+}
+.tracker-dot { width: 5px; height: 5px; border-radius: 50%; background: #93c5fd; animation: livePulse 2.2s ease infinite; }
+.btn-arrow-blue {
+  width: 34px; height: 34px; border-radius: 50%; flex: 0 0 auto;
+  display: grid; place-items: center;
+  background: rgba(110,180,255,.1); border: 1px solid rgba(110,180,255,.2);
+  color: #93c5fd; font-size: 1rem;
+  transition: transform .2s ease, background .2s ease;
+}
+.app-btn.tracker:hover .btn-arrow-blue { transform: rotate(45deg); background: rgba(110,180,255,.2); }
+
 .btn-info { display: flex; flex-direction: column; gap: 3px; }
 .btn-info strong { font-size: .98rem; }
 .btn-info span { font-size: .82rem; color: var(--muted); }
@@ -345,6 +377,20 @@ body::after {
   0%,100% { opacity: 1; } 50% { opacity: .3; }
 }
 
+/* ── APP LIST DIVIDER ── */
+.app-list-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 4px 0;
+}
+.app-list-divider span {
+  font-size: .69rem; letter-spacing: .13em; text-transform: uppercase;
+  color: #4e4b47; white-space: nowrap;
+}
+.app-list-divider::before,
+.app-list-divider::after {
+  content: ""; flex: 1; height: 1px; background: rgba(255,255,255,.07);
+}
+
 /* ── SIDE BOX ── */
 .side-card {
   background: rgba(255,255,255,.03);
@@ -365,6 +411,31 @@ body::after {
   background: linear-gradient(135deg, var(--accent-light), var(--accent));
   color: #1a0000; font-size: .7rem; font-weight: 900;
 }
+
+/* ── TRACKER SIDE CTA ── */
+.tracker-side-cta {
+  margin-top: 16px;
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 18px; border-radius: 14px;
+  text-decoration: none;
+  border: 1px solid rgba(147,197,253,.22);
+  background: rgba(147,197,253,.05);
+  transition: transform .22s, background .22s, border-color .22s, box-shadow .22s;
+}
+.tracker-side-cta:hover {
+  transform: translateY(-2px);
+  background: rgba(147,197,253,.09);
+  border-color: rgba(147,197,253,.38);
+  box-shadow: 0 8px 28px rgba(110,180,255,.12);
+}
+.tracker-side-icon {
+  width: 38px; height: 38px; border-radius: 10px; flex: 0 0 auto;
+  display: grid; place-items: center;
+  background: rgba(147,197,253,.12); border: 1px solid rgba(147,197,253,.2);
+  color: #93c5fd; font-size: 1.1rem;
+}
+.tracker-side-text strong { display: block; font-size: .92rem; color: var(--text); }
+.tracker-side-text span { display: block; font-size: .78rem; color: var(--muted); margin-top: 2px; }
 
 /* ── DIVIDER ── */
 .divider { border: none; border-top: 1px solid var(--border); }
@@ -450,12 +521,10 @@ footer {
   .footer-top { grid-template-columns: 1fr; }
   .partner-row { justify-content: flex-start; }
 }
-/* Tablet: hide brand subtitle */
 @media (max-width: 760px) {
   .brand-text span { display: none; }
   .top-btn { height: 34px; padding: 0 13px; font-size: .72rem; letter-spacing: .05em; }
 }
-/* Small mobile: hide brand text entirely, shrink buttons */
 @media (max-width: 480px) {
   :root { --nav-h: 58px; }
   .topbar-inner { padding: 0 12px; gap: 8px; }
@@ -499,6 +568,7 @@ footer {
     </a>
     <div class="topbar-right">
       <a class="top-btn" href="#portal">Applications</a>
+      <a class="top-btn" href="https://johandebeer21.github.io/MasterTrackingTNT/" target="_blank" rel="noopener">Track Application</a>
       <a class="top-btn" href="#footer">Partners</a>
       <a class="top-btn accent" href="https://trainingntactics.co.za/" target="_blank" rel="noopener">Website ↗</a>
     </div>
@@ -582,6 +652,26 @@ footer {
           </div>
           <div class="btn-arrow">↗</div>
         </a>
+        <a class="app-btn live" href="https://tally.so/r/ZjWq00" target="_blank" rel="noopener">
+          <div class="btn-info">
+            <div class="live-badge"><span class="live-dot"></span> Live</div>
+            <strong>Section 20 — Business Use</strong>
+            <span>Open &amp; accepting submissions</span>
+          </div>
+          <div class="btn-arrow">↗</div>
+        </a>
+
+        <div class="app-list-divider"><span>Client tools</span></div>
+
+        <a class="app-btn tracker" href="https://johandebeer21.github.io/MasterTrackingTNT/" target="_blank" rel="noopener">
+          <div class="btn-info">
+            <div class="tracker-badge"><span class="tracker-dot"></span> Live</div>
+            <strong>Application Tracker</strong>
+            <span>Check your application status</span>
+          </div>
+          <div class="btn-arrow-blue">↗</div>
+        </a>
+
         <a class="app-btn plain" href="https://trainingntactics.co.za/" target="_blank" rel="noopener">
           <span style="font-size:.88rem;color:var(--muted);">Official ERSC Training & Tactics Website ↗</span>
         </a>
@@ -596,6 +686,14 @@ footer {
         <li><span class="check-icon">✓</span>Have your ID and relevant documents ready before starting</li>
         <li><span class="check-icon">✓</span>Submit only once all information is complete</li>
       </ul>
+
+      <a class="tracker-side-cta" href="https://johandebeer21.github.io/MasterTrackingTNT/" target="_blank" rel="noopener">
+        <div class="tracker-side-icon">⊙</div>
+        <div class="tracker-side-text">
+          <strong>Track your application</strong>
+          <span>Check real-time status updates</span>
+        </div>
+      </a>
     </aside>
   </div>
 </section>
